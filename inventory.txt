@@ -1,10 +1,5 @@
 Shirt-XYZ, Consumer Goods, 100
-Pants-ABC, Consumer Goods, 75
-Steel-AAA, Raw Materials, 1000
-Wood-ABB, Raw Materials, 2500
+Steel-AAA, Raw Materials, 500
 Pens-P, Office Supplies, 50
-Computer-APL, Office Supplies, 10
-AC-Unit, Equipment, 2
-Forklift-M, Equipment, 1
-Fax Machine-FF, Office Supplies, 1
+AC-Unit, Equipment, 5
 Cameras-CC, Miscellaneous, 10
