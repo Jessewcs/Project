@@ -40,8 +40,40 @@ def get_option():
     print()
     return selected_index
 ```
-
 This function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
+
+```python
+def get_sku():
+    while True:
+        try:
+            sku = input("Enter the Stock Keeping Unit (SKU): ")
+            if sku.strip():
+                return sku
+            else:
+                print("Please enter a valid Stock Keeping Unit!", file=sys.stderr)
+                print()
+        except TypeError:
+            print("Invalid Input: Please provide an SKU!", file=sys.stderr)
+            print()
+```
+The function, get_sku() prompts the user for a valid SKU. An invalid input with essentially be no entry, whatsoever. SKUs should be specific and have a unique identifier.
+
+```python
+def get_sku_quantity():
+    sku = get_sku()
+    while True:
+        try:
+            quantity = int(input(f"Enter the quantity in stock for item, {sku}: "))
+            if quantity >= 0:
+                return sku, quantity
+            else:
+                print("Invalid Input: Please provide a non-negative quantity!", file=sys.stderr)
+                print()
+        except ValueError:
+            print("Invalid Input: Please enter a valid number!", file=sys.stderr)
+            print()
+```
+The function, get_ski_quantity() prompts the user for a valid integral value quantity for that specific SKU. 
 
 ```python    
 def get_sku_category():
@@ -66,6 +98,13 @@ def get_sku_category():
             print()
 ```
 This function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection.
+
+```python
+def inventory_item_class(sku, category, quantity):
+    inventory_item = InventoryItem(sku=sku, category=category, quantity_in_stock=quantity)
+    return inventory_item
+```
+The function, inventory_item_class(sku, category, quantity) creates an instance of a class from the provided sku, category, and quantity so that it can be used to efficiently store the data in the inventory individually.
 
 ```python
 def write_inventory_to_file(inventory_item: InventoryItem, file_name):
@@ -105,6 +144,32 @@ def summarize_inventory(file_name):
         print(f"{key}: {value}")
 ```
 The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
+
+```python
+def get_sku_to_remove(sku_list):
+    if not sku_list:
+        print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
+    else:
+        while True:
+            try:
+                selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
+                                           f" (1 - {len(sku_list)}): "))
+                if 1 <= selected_index <= len(sku_list):
+                    return sku_list[selected_index - 1][0]
+                else:
+                    print("Invalid Selection: Please try again!", file=sys.stderr)
+                    print()
+            except ValueError:
+                print("Invalid Input: Please try again", file=sys.stderr)
+                print()
+```
+The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a list. This function is essential to manage inventory levels, and by efficiently providing a list of SKus to choose for, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
+
+```python
+def clear_inventory(file_name):
+    open(file_name, "w").close()
+```
+The function, clear_inventory(file_name) was incorporated because of quarterly inventory checks. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
 
 ### Major Challenges
 
@@ -151,13 +216,6 @@ def remove_sku(sku_to_remove, file_name):
 ```
 
 The function, remove_sku(sku_to_remove, file_name) was probably the function I was ignoring the most, other than individually listing each instance of a SKU. I had the application practically finished and I thought to myself how could this even be an inventory managing application if the user was unable to freely update SKU quantities. So, learning more about how to read, write, and append ino text files, I was able to create this function in order for the user to successfully remove their desired specific SKU. Duplicates do not come into effect here as each SKU should have an individual unique identifier, such as BlueShirt-XYZ.
-
-```python
-def clear_inventory(file_name):
-    open(file_name, "w").close()
-
-```
-The function, clear_inventory(file_name) was incorporated because of quarterly inventory checks. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
 
 ## Example Runs
 Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
