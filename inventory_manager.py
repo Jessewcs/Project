@@ -10,7 +10,7 @@ def get_option():
     """
     options = ("1", "2", "3", "4", "5")
     print("--------------------------------------------------------")
-    print("--- Inventory Item Manager, Select one of the following:")
+    print("--- Inventory Item Manager: Select one of the following:")
     print("1. Add & Save a Stock Keeping Unit (SKU)")
     print("2. Remove an existing Stock Keeping Unit")
     print("3. List all individual Stock Keeping Units")
@@ -228,11 +228,14 @@ def remove_sku(sku_to_remove, file_name):
                 sku = cleaned_line[0]
                 if sku != sku_to_remove:
                     file.write(line)
-        print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!")
     except FileNotFoundError:
         print(f"{file_name} was not found!", file=sys.stderr)
     except OSError:
         print(f"Something happened while modifying the file: {file_name}", file=sys.stderr)
+
+
+def clear_inventory(file_name):
+    open(file_name, "w").close()
 
 
 def main():
@@ -254,17 +257,36 @@ def main():
             print("----------------------------------------------")
             sku, quantity = get_item_quantity()
             category = get_item_category()
-            inventory_item = inventory_item_class(sku, category, quantity) 
+            inventory_item = inventory_item_class(sku, category, quantity)
             write_inventory_to_file(inventory_item, file_name)
 
         elif selected_option == "2":
-            print("--------------------------------------------------------")
-            print("--- Select an Inventory Item that you'd like to remove: ")
-            sku_list = list_skus(file_name)
-            print("--------------------------------------------------------")
-            sku_to_remove = get_sku_to_remove(sku_list)
-            if sku_to_remove:
-                remove_sku(sku_to_remove, file_name)
+            choices = ("1", "2")
+            print("----------------------------------------------------------------------")
+            print("--- Choose one of the following options to proceed:")
+            print(f"1. Permanently remove a single Inventory Item (SKU) from {file_name}")
+            print(f"2. Permanently remove ALL saved Inventory Items from {file_name}")
+            print("----------------------------------------------------------------------")
+            selected_choice = input(f"Which choice would you like to select? (1 - {len(choices)}): ")
+            selected_choice = selected_choice.strip()
+            while selected_choice not in choices:
+                selected_choice = input(f"Invalid Choice: Please enter a valid number! (1 - {len(choices)}): ")
+                selected_choice = selected_choice.strip()
+
+            if selected_choice == "1":
+                print("--------------------------------------------------------")
+                print("--- Select an Inventory Item that you'd like to remove: ")
+                sku_list = list_skus(file_name)
+                print("--------------------------------------------------------")
+                sku_to_remove = get_sku_to_remove(sku_list)
+                if sku_to_remove:
+                    remove_sku(sku_to_remove, file_name)
+                    print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!")
+            elif selected_choice == "2":
+                clear_inventory(file_name)
+                print(f"You have permanently removed all Inventory Items from {file_name}!")
+            else:
+                print(f"Error! Something went wrong with, {selected_choice}")
 
         elif selected_option == "3":
             print("----------------------------------------------------------------")
@@ -276,6 +298,9 @@ def main():
             print(f"--- The Quantity in Stock by Category from {file_name}:")
             summarize_inventory(file_name)
             print("--------------------------------------------------------")
+
+        else:
+            print(f"Error! Something went wrong with, {selected_option}")
 
 
 if __name__ == "__main__":

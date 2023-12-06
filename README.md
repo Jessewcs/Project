@@ -1,18 +1,21 @@
 # Final Project Report
 
-* Student Name:
-* Github Username:
-* Semester:
-* Course:
+* Student Name: Jesse Wojtanowicz
+* Github Username: Jessewcs
+* Semester: Fall 2023
+* Course: CS5001
 
 
 
 ## Description 
-General overview of the project, what you did, why you did it, etc. 
+General overview of the project, what you did, why you did it, etc.\
 
+My project, an Inventory Item Manager, is a comprehensive system designed to facilitate the management of stock keeping units (SKUs) in an inventory setting. My motivation behind this project stems from my undergraduate degree at Penn State, Supply Chain & Information Systems  and my experience as a Procurement & Logistics Analyst at Reliance Steel. I have a lot of knowledge in the logistics of tracking inventory items, and such that I was comfortable with that knowledge to build a simple yet effective tool in python to organize and track inventory items, particularly in small business environments. This specific application caters to basic inventory management needs, allowing users to add, remove, list, and summarize inventory items efficiently and effectively.
 
 ## Key Features
-Highlight some key features of this project that you want to show off/talk about/focus on. 
+Highlight some key features of this project that you want to show off/talk about/focus on. \
+
+I believe this application provides a very clear and user-friendly interface for adding, removing, list, and summarizing SKUs. This simplicity ensures that users with minimal technical expertise, especially those with small businesses, can effectively and efficiently interact with this system. One pretty neat feature is the ability to summarize SKUs by category. This functions offers the user valuable insights into their inventory stock by category, allowing for quick assessment and decision making based on category stock levels and what the user might need to purchase/when in the near future. In addition to summarizing, the user is also able to list each individual SKU ever saved.
 
 ## Guide
 How do we run your project? What should we do to see it in action? - Note this isn't installing, this is actual use of the project.. If it is a website, you can point towards the gui, use screenshots, etc talking about features. 
