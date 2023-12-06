@@ -21,8 +21,8 @@ No external APIs or dependencies are required for this version of the applicatio
 ## Code Review
 
 Key aspects of the Inventory Manager Application that I believe are integral parts of the application in order for the program to come together efficiently:
-
-`def get_option():
+```python
+def get_option():
     options = ("1", "2", "3", "4", "5")
     print("--------------------------------------------------------")
     print("--- Inventory Item Manager: Select one of the following:")
@@ -38,12 +38,13 @@ Key aspects of the Inventory Manager Application that I believe are integral par
         selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ")
         selected_index = selected_index.strip()
     print()
-    return selected_index`
+    return selected_index
+```
 
 This function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
 
-    
-`def get_sku_category():
+```python    
+def get_sku_category():
     print("----------------------------------")
     print("--- Select an Item (SKU) Category:")
     sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
@@ -62,11 +63,12 @@ This function, get_option() is what provides the user an interface for selecting
                 print()
         except ValueError:
             print("Invalid Input: Please try again!", file=sys.stderr)
-            print()`
-
+            print()
+```
 This function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection.
 
-`def write_inventory_to_file(inventory_item: InventoryItem, file_name):
+```python
+def write_inventory_to_file(inventory_item: InventoryItem, file_name):
     try:
         with open(file_name, "a") as file:
             inventory_string = f"{inventory_item.sku}, {inventory_item.category}, {inventory_item.quantity_in_stock}"
@@ -76,11 +78,12 @@ This function, get_sku_category() shows the user all available categories to lab
         print(f"{file_name} was not found!", file=sys.stderr)
     except OSError:
         print(f"Something happened while writing to the file: {file_name}", file=sys.stderr)
-    print(f"--- Saved! You have successfully added {inventory_item.sku} to {file_name}!")`
-
+    print(f"--- Saved! You have successfully added {inventory_item.sku} to {file_name}!")
+```
 The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and write it into a specified file accordingly to ensure the data will always be persistent and concise in the file.
 
-`def summarize_inventory(file_name):
+```python
+def summarize_inventory(file_name):
     inventory_sum = {}
     try:
         with open(file_name, "r") as file:
@@ -99,9 +102,10 @@ The function, write_inventory_to_file(inventory_item, file_name) takes in an Inv
     except OSError:
         print(f"Something happened while reading the file: {file_name}", file=sys.stderr)
     for key, value in inventory_sum.items():
-        print(f"{key}: {value}")`
-
+        print(f"{key}: {value}")
+```
 The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
+
 ### Major Challenges
 Key aspects could include pieces that your struggled on and/or pieces that you are proud of and want to show off.
 
