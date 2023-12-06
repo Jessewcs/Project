@@ -235,6 +235,11 @@ def remove_sku(sku_to_remove, file_name):
 
 
 def clear_inventory(file_name):
+    """ Clears all inventory information from a file
+
+    Parameters:
+        file_name (str): The name of the file from which inventory is to be removed.
+    """
     open(file_name, "w").close()
 
 
