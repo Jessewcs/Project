@@ -45,7 +45,7 @@ def get_sku():
             print()
 
 
-def get_item_quantity():
+def get_sku_quantity():
     """ Gets the SKU from the user and then prompts for its quantity in stock.
         Validates the quantity.
 
@@ -66,26 +66,26 @@ def get_item_quantity():
             print()
 
 
-def get_item_category():
+def get_sku_category():
     """ Displays a list of categories and prompts the user to select one.
 
     Returns:
         str: The selected category.
 
     """
-    print("----------------------------")
-    print("--- Select an Item Category:")
-    item_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
-    for index, category in enumerate(item_categories):
+    print("----------------------------------")
+    print("--- Select an Item (SKU) Category:")
+    sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
+    for index, category in enumerate(sku_categories):
         print(f"{index + 1}. {category}")
-    print("----------------------------")
+    print("----------------------------------")
 
     while True:
         try:
             selected_index = int(input(f"Enter the category where your SKU belongs to (1 - "
-                                       f"{len(item_categories)}): ")) - 1
-            if selected_index in range(len(item_categories)):
-                selected_category = item_categories[selected_index]
+                                       f"{len(sku_categories)}): ")) - 1
+            if selected_index in range(len(sku_categories)):
+                selected_category = sku_categories[selected_index]
                 return selected_category
             else:
                 print("Invalid Input: Please provide a valid category number!", file=sys.stderr)
@@ -195,7 +195,7 @@ def get_sku_to_remove(sku_list):
         str: The selected SKU to be removed.
     """
     if not sku_list:
-        print("There are currently no saves Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
+        print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
     else:
         while True:
             try:
@@ -260,8 +260,8 @@ def main():
         elif selected_option == "1":
             print("Welcome to your Inventory Item Managing System:")
             print("----------------------------------------------")
-            sku, quantity = get_item_quantity()
-            category = get_item_category()
+            sku, quantity = get_sku_quantity()
+            category = get_sku_category()
             inventory_item = inventory_item_class(sku, category, quantity)
             write_inventory_to_file(inventory_item, file_name)
 
