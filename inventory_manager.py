@@ -202,7 +202,8 @@ def get_sku_to_remove(sku_list):
                 selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
                                            f" (1 - {len(sku_list)}): "))
                 if 1 <= selected_index <= len(sku_list):
-                    return sku_list[selected_index - 1][0]
+                    sku_to_remove = sku_list[selected_index - 1][0]
+                    return sku_to_remove
                 else:
                     print("Invalid Selection: Please try again!", file=sys.stderr)
                     print()

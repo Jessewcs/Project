@@ -40,7 +40,7 @@ def get_option():
     print()
     return selected_index
 ```
-This function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
+The function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
 
 ```python
 def get_sku():
@@ -97,14 +97,14 @@ def get_sku_category():
             print("Invalid Input: Please try again!", file=sys.stderr)
             print()
 ```
-This function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection.
+The function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection.
 
 ```python
 def inventory_item_class(sku, category, quantity):
     inventory_item = InventoryItem(sku=sku, category=category, quantity_in_stock=quantity)
     return inventory_item
 ```
-The function, inventory_item_class(sku, category, quantity) creates an instance of a class from the provided sku, category, and quantity so that it can be used to efficiently store the data in the inventory individually.
+The function, inventory_item_class(sku, category, quantity) creates an instance of a class InventoryItem from the provided sku, category, and quantity so that it can be used to precisely store the data in the inventory file individually.
 
 ```python
 def write_inventory_to_file(inventory_item: InventoryItem, file_name):
@@ -119,7 +119,7 @@ def write_inventory_to_file(inventory_item: InventoryItem, file_name):
         print(f"Something happened while writing to the file: {file_name}", file=sys.stderr)
     print(f"--- Saved! You have successfully added {inventory_item.sku} to {file_name}!")
 ```
-The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and write it into a specified file accordingly to ensure the data will always be persistent and concise in the file.
+The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and appends it into a specified file accordingly to ensure the data will be added to the file, not written over and the information always be neat, concise, and persistent in the file.
 
 ```python
 def summarize_inventory(file_name):
@@ -143,27 +143,7 @@ def summarize_inventory(file_name):
     for key, value in inventory_sum.items():
         print(f"{key}: {value}")
 ```
-The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
-
-```python
-def get_sku_to_remove(sku_list):
-    if not sku_list:
-        print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
-    else:
-        while True:
-            try:
-                selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
-                                           f" (1 - {len(sku_list)}): "))
-                if 1 <= selected_index <= len(sku_list):
-                    return sku_list[selected_index - 1][0]
-                else:
-                    print("Invalid Selection: Please try again!", file=sys.stderr)
-                    print()
-            except ValueError:
-                print("Invalid Input: Please try again", file=sys.stderr)
-                print()
-```
-The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a list. This function is essential to manage inventory levels, and by efficiently providing a list of SKus to choose for, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
+The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part, category name, in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
 
 ```python
 def clear_inventory(file_name):
@@ -194,7 +174,27 @@ def list_skus(file_name):
         print(f"Something happened while reading the file: {file_name}", file=sys.stderr)
 
 ```
-The function, list_skus(file_name) is something I particularly struggled with and am incredibly proud of. I was unable to print the data from the file accordingly, it was difficult to format it in the way where the user interface looked the simplest. This function was one of the last functions to be incorporated because I could not quite get it to work correctly. However, once I wanted to create the ability for the user to remove a SKU, I needed to print a list of all saved SKUs so this was extremely important to me that it worked. Relentlessly, I worked with a counter to act as my index and was sucessfull. It became pretty useful as well as it allowed me to also give the user another option in the menu to simply list all of their inventory they've saved.
+The function, list_skus(file_name) is something I particularly struggled with and am proud of. I was unable to print the data from the file accordingly, many issues rose from attempting to list, and it was difficult to format it in the way where the user interface looked the simplest. I needed to provide a list of all saved SKUs in order to allow the user to view them via console or terminal and prior to selecting an index, so this was extremely important to me that it worked. I tried incorporating this as a dictionary, but I was unable to successfully do that. Instead, I decided to use a counter as my index and loop through each line in the file, assign each individual part in the line, and append it to sku_list, which is essentially a list of tuples. Each tuple represents a SKU and its associated details category and quantity in stock. This function also proved indeed useful as it allowed me to  give the user an additional option in the menu to simply list all of their individual inventory they've saved.
+
+```python
+def get_sku_to_remove(sku_list):
+    if not sku_list:
+        print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
+    else:
+        while True:
+            try:
+                selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
+                                           f" (1 - {len(sku_list)}): "))
+                if 1 <= selected_index <= len(sku_list):
+                    return sku_list[selected_index - 1][0]
+                else:
+                    print("Invalid Selection: Please try again!", file=sys.stderr)
+                    print()
+            except ValueError:
+                print("Invalid Input: Please try again", file=sys.stderr)
+                print()
+```
+The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a provided SKU list, which is printed prior to selection. The user will be unable to remove a SKU from an empty inventory. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's choice to match the correct index in sku_list. We then have to return the selected SKU from the list of tuples. This function is essential to manage inventory levels, and by efficiently providing a list of SKus to choose for, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
 
 ```python
 def remove_sku(sku_to_remove, file_name):
@@ -214,8 +214,7 @@ def remove_sku(sku_to_remove, file_name):
         print(f"Something happened while modifying the file: {file_name}", file=sys.stderr)
 
 ```
-
-The function, remove_sku(sku_to_remove, file_name) was probably the function I was ignoring the most, other than individually listing each instance of a SKU. I had the application practically finished and I thought to myself how could this even be an inventory managing application if the user was unable to freely update SKU quantities. So, learning more about how to read, write, and append ino text files, I was able to create this function in order for the user to successfully remove their desired specific SKU. Duplicates do not come into effect here as each SKU should have an individual unique identifier, such as BlueShirt-XYZ.
+The function, remove_sku(sku_to_remove, file_name) received the specified valid SKU to remove 
 
 ## Example Runs
 Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
