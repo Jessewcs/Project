@@ -107,8 +107,57 @@ def summarize_inventory(file_name):
 The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
 
 ### Major Challenges
-Key aspects could include pieces that your struggled on and/or pieces that you are proud of and want to show off.
 
+```python
+def list_skus(file_name):
+    sku_list = []
+    try:
+        with open(file_name, "r") as file:
+            counter = 0
+            for line in file:
+                line_parts = line.strip().split(",")
+                sku = line_parts[0].strip()
+                category = line_parts[1].strip()
+                quantity = line_parts[2].strip()
+                sku_list.append((sku, category, quantity))
+                counter += 1
+                print(f"{counter}: {sku}, {category}, {quantity}")
+            return sku_list
+    except FileNotFoundError:
+        print(f"{file_name} was not found!", file=sys.stderr)
+    except OSError:
+        print(f"Something happened while reading the file: {file_name}", file=sys.stderr)
+
+```
+The function, list_skus(file_name) is something I particularly struggled with and am incredibly proud of. I was unable to print the data from the file accordingly, it was difficult to format it in the way where the user interface looked the simplest. This function was one of the last functions to be incorporated because I could not quite get it to work correctly. However, once I wanted to create the ability for the user to remove a SKU, I needed to print a list of all saved SKUs so this was extremely important to me that it worked. Relentlessly, I worked with a counter to act as my index and was sucessfull. It became pretty useful as well as it allowed me to also give the user another option in the menu to simply list all of their inventory they've saved.
+
+```python
+def remove_sku(sku_to_remove, file_name):
+    try:
+        with open(file_name, "r") as file:
+            lines = file.readlines()
+
+        with open(file_name, "w") as file:
+            for line in lines:
+                cleaned_line = line.strip().split(",")
+                sku = cleaned_line[0]
+                if sku != sku_to_remove:
+                    file.write(line)
+    except FileNotFoundError:
+        print(f"{file_name} was not found!", file=sys.stderr)
+    except OSError:
+        print(f"Something happened while modifying the file: {file_name}", file=sys.stderr)
+
+```
+
+The function, remove_sku(sku_to_remove, file_name) was probably the function I was ignoring the most, other than individually listing each instance of a SKU. I had the application practically finished and I thought to myself how could this even be an inventory managing application if the user was unable to freely update SKU quantities. So, learning more about how to read, write, and append ino text files, I was able to create this function in order for the user to successfully remove their desired specific SKU. Duplicates do not come into effect here as each SKU should have an individual unique identifier, such as BlueShirt-XYZ.
+
+```python
+def clear_inventory(file_name):
+    open(file_name, "w").close()
+
+```
+The function, clear_inventory(file_name) was incorporated because of quarterly inventory checks. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
 
 ## Example Runs
 Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
