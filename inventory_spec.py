@@ -1,3 +1,14 @@
+"""
+Final Project: Inventory Managing Application
+===========================
+Course:   CS 5001
+Semester: Fall 2023
+Student:  Jesse Wojtanowicz
+
+A comprehensive system designed to facilitate the management of stock keeping units (SKUs) in an inventory setting.
+"""
+
+
 class InventoryItem:
     def __init__(self, sku, category, quantity_in_stock):
         self.sku = sku

@@ -56,7 +56,7 @@ def get_sku():
             print("Invalid Input: Please provide an SKU!", file=sys.stderr)
             print()
 ```
-The function, get_sku() prompts the user for a valid SKU. An invalid input with essentially be no entry, whatsoever. SKUs should be specific and have a unique identifier.
+The function, get_sku() prompts the user for a valid SKU. An invalid input would essentially be no entry, whatsoever. SKUs should be specific and have a unique identifier.
 
 ```python
 def get_sku_quantity():
@@ -118,7 +118,6 @@ def write_inventory_to_file(inventory_item: InventoryItem, file_name):
         print(f"{file_name} was not found!", file=sys.stderr)
     except OSError:
         print(f"Something happened while writing to the file: {file_name}", file=sys.stderr)
-    print(f"--- Saved! You have successfully added {inventory_item.sku} to {file_name}!")
 ```
 The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and appends it into a specified file accordingly to ensure the data will be added to the file, not written over and the information always be neat, concise, and persistent in the file.
 
@@ -153,7 +152,7 @@ def clear_inventory(file_name):
 The function, clear_inventory(file_name) was incorporated because of quarterly inventory checks. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
 
 ### Major Challenges
-
+The process of incorporating the option for a user to remove an inventory item was one of my bigger struggles throughout this project. I knew this had to be completed because of how essential it is to be able to remove and update SKUs by their quantity in stock.
 ```python
 def list_skus(file_name):
     sku_list = []
@@ -195,7 +194,7 @@ def get_sku_to_remove(sku_list):
                 print("Invalid Input: Please try again", file=sys.stderr)
                 print()
 ```
-The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a provided SKU list, which is printed prior to selection. The user will be unable to remove a SKU from an empty inventory. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's choice to match the correct index in sku_list. We then have to return the selected SKU from the list of tuples. This function is essential to manage inventory levels, and by efficiently providing a list of SKus to choose for, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
+The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a provided SKU list, which is printed prior to selection. The user will be unable to remove a SKU from an empty inventory. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's choice to match the correct index in sku_list. We then have to return the selected SKU from the list of tuples. This function is essential to manage inventory levels, and by efficiently providing a list of SKUs to choose from, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
 
 ```python
 def remove_sku(sku_to_remove, file_name):
@@ -215,7 +214,7 @@ def remove_sku(sku_to_remove, file_name):
         print(f"Something happened while modifying the file: {file_name}", file=sys.stderr)
 
 ```
-The function, remove_sku(sku_to_remove, file_name) received the specified valid SKU to remove 
+The function, remove_sku(sku_to_remove, file_name) receives the specified valid SKU to remove from the file. We'll first have to open the inventory file and read through all the lines of the file and store them in lines. The function then opens the same file and attempts to write over the original contents of the file. This is particularly useful here because the function will iterate over each line, then split the line into individual parts. Since we know  the SKU is always precisely first in each line, we can use that to compare it with the user's sku_to_remove selection. If the SKU in the current line does not match the user's selected SKU, then the line is written back to the file which is exactly what we want it to do. This will effectively remove the user's selected SKU from the inventory file.
 
 ## Example Runs
 Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
@@ -227,7 +226,12 @@ How did you test your code? What did you do to make sure your code was correct? 
 
 
 ## Missing Features / What's Next
-Focus on what you didn't get to do, and what you would do if you had more time, or things you would implement in the future. 
+A key feature that I had envisioned from the beginning of developing the Inventory Item Manager, but could not unfortunately implement due to time constraints and the need for much more learning was to be able to integrate some sort of Python Library that provides a GUI for the user. This would allow users to manage this inventory through a visually appealing and user-friendly interface, with buttons they can click such as add, remove, list, summarize, or exit. These features would have probably made my application much more appealing and robust, however, I look forward to revising this project in the future and incorporating such a GUI to significantly enhance the user experience to make it more intuitive and accessible. 
 
 ## Final Reflection
 Write at least a paragraph about your experience in this course. What did you learn? What do you need to do to learn more? Key takeaways? etc.
+Reflecting on my experience in this course, I believe I have learned so many valuable lessons within this course and the intensive curriculum has been instrumental to my growth within understand the Python language on enhancing my computational thinking. I truly did struggle at this beginning of the course, I was slow to understand new topics and I failed to attempt and practice small projects on my own, using the new information I learned in order to solidify my understanding of the material at hand. 
+
+Two key takeaways that I have personally gained from this course is one, the importance of testing your code. The significance needed for thorough testing and considering all possible ege cases has instilled in me the best practices that are vital in real-world software engineering. I am very grateful to be incorporating these habits early into my coding career in order to be successful and confident in the near future. The second key takeaway is the importance of writing clean, simple, yet well-documented code. The emphasis on documentation in this course has shown me how important it is to be able to understand exactly what your code is doing, what task your function has, and a better understanding of how it all comes together at the end.
+
+Moving forwards with future classes, I now fully understand and recognize the necessity to continuously learn and adapt. I must embrace a lifelong learning journey as I will never fully understand each project or assignment that is given to me either by my professors or my superiors. I need to begin to leave my comfort zone, delve deeper in Python and other languages, exploring new libraries and frameworks, and staying persistent with practicing my knowledge and keeping my coding skills sharp. This course has not only equipped me with a very solid foundation of Python programming but it has also sparked an eagerness and excitement to explore beyond Python and what is being taught, and I am more nervous and curious than ever to learn more.

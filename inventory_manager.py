@@ -1,3 +1,12 @@
+"""
+Final Project: Inventory Managing Application
+===========================
+Course:   CS 5001
+Semester: Fall 2023
+Student:  Jesse Wojtanowicz
+
+A comprehensive system designed to facilitate the management of stock keeping units (SKUs) in an inventory setting.
+"""
 from inventory_spec import InventoryItem
 import sys
 
@@ -126,7 +135,6 @@ def write_inventory_to_file(inventory_item: InventoryItem, file_name):
         print(f"{file_name} was not found!", file=sys.stderr)
     except OSError:
         print(f"Something happened while writing to the file: {file_name}", file=sys.stderr)
-    print(f"--- Saved! You have successfully added {inventory_item.sku} to {file_name}!")
 
 
 def summarize_inventory(file_name):
@@ -246,7 +254,7 @@ def clear_inventory(file_name):
 
 def main():
     """ The main driver of the program. Provides a menu to the user
-    and executed the selected option.
+    and executes the selected option.
     """
     file_name = "inventory.txt"
 
@@ -265,6 +273,7 @@ def main():
             category = get_sku_category()
             inventory_item = inventory_item_class(sku, category, quantity)
             write_inventory_to_file(inventory_item, file_name)
+            print(f"Saved! You have successfully added {inventory_item.sku} to {file_name}!")
 
         elif selected_option == "2":
             choices = ("1", "2")
