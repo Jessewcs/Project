@@ -97,7 +97,7 @@ def get_sku_category():
             print("Invalid Input: Please try again!", file=sys.stderr)
             print()
 ```
-The function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection.
+The function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's selected category to match the correct index.
 
 ```python
 def inventory_item_class(sku, category, quantity):

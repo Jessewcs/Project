@@ -83,9 +83,9 @@ def get_sku_category():
     while True:
         try:
             selected_index = int(input(f"Enter the category where your SKU belongs to (1 - "
-                                       f"{len(sku_categories)}): ")) - 1
-            if selected_index in range(len(sku_categories)):
-                selected_category = sku_categories[selected_index]
+                                       f"{len(sku_categories)}): "))
+            if 1 <= selected_index <= len(sku_categories):
+                selected_category = sku_categories[selected_index - 1]
                 return selected_category
             else:
                 print("Invalid Input: Please provide a valid category number!", file=sys.stderr)
