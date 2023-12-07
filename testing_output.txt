@@ -1,0 +1,204 @@
+"""
+Final Project: Inventory Managing Application
+===========================
+Course:   CS 5001
+Semester: Fall 2023
+Student:  Jesse Wojtanowicz
+
+Testing Output File from terminal for Inventory Managing Application:
+"""
+
+---- TESTING ADD & SAVE A STOCK KEEPING UNIT FROM START TO FINISH ---
+---------------------------------------------------------------------
+
+1. Testing function, get_option():
+
+--------------------------------------------------------
+--- Inventory Item Manager: Select one of the following:
+1. Add & Save a Stock Keeping Unit (SKU)
+2. Remove an existing Stock Keeping Unit
+3. List all individual Stock Keeping Units
+4. Summarize the quantity of SKUs by Category
+5. Exit the Inventory Manager Application
+--------------------------------------------------------
+Which option would you like to select? (1 - 5):
+Invalid Option: Please enter a valid number! (1 - 5): 0
+Invalid Option: Please enter a valid number! (1 - 5): 6
+Invalid Option: Please enter a valid number! (1 - 5): abc
+Invalid Option: Please enter a valid number! (1 - 5): -55
+
+Invalid Option: Please enter a valid number! (1 - 5): 1
+
+2. Testing function, get_sku():
+
+Welcome to your Inventory Item Managing System:
+----------------------------------------------
+Enter the Stock Keeping Unit (SKU):
+Please enter a valid Stock Keeping Unit!
+
+Enter the Stock Keeping Unit (SKU): Shoes-VANS
+
+3. Testing function, get_sku_quantity():
+
+Enter the quantity in stock for item, Shoes-VANS:
+Invalid Input: Please enter a valid number!
+
+Enter the quantity in stock for item, Shoes-VANS: abc
+Invalid Input: Please enter a valid number!
+
+Enter the quantity in stock for item, Shoes-VANS: -55
+Invalid Input: Please provide a non-negative quantity!
+
+Enter the quantity in stock for item, Shoes-VANS: 10000000000
+
+4. Testing function, get_sku_category():
+
+----------------------------------
+--- Select an Item (SKU) Category:
+1. Raw Materials
+2. Consumer Goods
+3. Office Supplies
+4. Equipment
+5. Miscellaneous
+----------------------------------
+Enter the category where your SKU belongs to (1 - 5): 0
+Invalid Input: Please provide a valid category number!
+
+Enter the category where your SKU belongs to (1 - 5): 6
+Invalid Input: Please provide a valid category number!
+
+Enter the category where your SKU belongs to (1 - 5): abc
+Invalid Input: Please try again!
+
+Enter the category where your SKU belongs to (1 - 5): -55
+Invalid Input: Please provide a valid category number!
+
+Enter the category where your SKU belongs to (1 - 5): 10050052050
+Invalid Input: Please provide a valid category number!
+
+Enter the category where your SKU belongs to (1 - 5): 2
+
+Expected Output:
+Saved! You have successfully added Shoes-VANS to inventory.txt!
+
+Output:
+Saved! You have successfully added Shoes-VANS to inventory.txt!
+
+
+--- TESTING TO REMOVE AN EXISTING STOCK KEEPING UNIT ---
+--------------------------------------------------------
+
+1. Testing function, list_skus() when file is EMPTY:
+
+--------------------------------------------------------
+--- Inventory Item Manager: Select one of the following:
+1. Add & Save a Stock Keeping Unit (SKU)
+2. Remove an existing Stock Keeping Unit
+3. List all individual Stock Keeping Units
+4. Summarize the quantity of SKUs by Category
+5. Exit the Inventory Manager Application
+--------------------------------------------------------
+Which option would you like to select? (1 - 5): 2
+
+Expected Output:
+There are currently no saved Stock Keeping Units (SKUs) to be removed!
+
+Output:
+There are currently no saved Stock Keeping Units (SKUs) to be removed!
+
+2. Testing function, get_sku_to_remove(sku_list) when file is not empty:
+
+--------------------------------------------------------
+--- Inventory Item Manager: Select one of the following:
+1. Add & Save a Stock Keeping Unit (SKU)
+2. Remove an existing Stock Keeping Unit
+3. List all individual Stock Keeping Units
+4. Summarize the quantity of SKUs by Category
+5. Exit the Inventory Manager Application
+--------------------------------------------------------
+Which option would you like to select? (1 - 5): 2
+
+----------------------------------------------------------------------
+--- Choose one of the following options to proceed:
+1. Permanently remove a single Inventory Item (SKU) from inventory.txt
+2. Permanently remove ALL saved Inventory Items from inventory.txt
+----------------------------------------------------------------------
+Which choice would you like to select? (1 - 2): 0
+Invalid Choice: Please enter a valid number! (1 - 2): 3
+Invalid Choice: Please enter a valid number! (1 - 2): abc
+Invalid Choice: Please enter a valid number! (1 - 2):
+Invalid Choice: Please enter a valid number! (1 - 2): 1
+--------------------------------------------------------
+--- Select an Inventory Item that you'd like to remove:
+1. Shirt-XYZ, Consumer Goods, 100
+2. Steel-AAA, Raw Materials, 500
+3. Pens-P, Office Supplies, 50
+4. AC-Unit, Equipment, 5
+5. Cameras-CC, Miscellaneous, 10
+6. Shoes-VANS, Consumer Goods, 10000000000
+--------------------------------------------------------
+Select the Stock Keeping Unit (SKU) that you wish to remove (1 - 6): 0
+Invalid Selection: Please try again!
+
+Select the Stock Keeping Unit (SKU) that you wish to remove (1 - 6): -55
+Invalid Selection: Please try again!
+
+Select the Stock Keeping Unit (SKU) that you wish to remove (1 - 6): fffff
+Invalid Input: Please try again
+
+Select the Stock Keeping Unit (SKU) that you wish to remove (1 - 6): 55555555555
+Invalid Selection: Please try again!
+
+Select the Stock Keeping Unit (SKU) that you wish to remove (1 - 6):
+Invalid Input: Please try again
+
+Select the Stock Keeping Unit (SKU) that you wish to remove (1 - 6): 6
+
+Expected Output:
+Stock Keeping Unit: Shoes-VANS has been successfully removed from inventory!
+
+Output:
+Stock Keeping Unit: Shoes-VANS has been successfully removed from inventory!
+
+--- TESTING TO LIST ALL INDIVIDUAL STOCK KEEPING UNITS ---
+----------------------------------------------------------
+
+1. Testing function list_skus()
+
+--------------------------------------------------------
+--- Inventory Item Manager: Select one of the following:
+1. Add & Save a Stock Keeping Unit (SKU)
+2. Remove an existing Stock Keeping Unit
+3. List all individual Stock Keeping Units
+4. Summarize the quantity of SKUs by Category
+5. Exit the Inventory Manager Application
+--------------------------------------------------------
+Which option would you like to select? (1 - 5): 3
+
+----------------------------------------------------------------
+--- All individually saved Stock Keeping Units from inventory.txt
+1. Shirt-XYZ, Consumer Goods, 100
+2. Steel-AAA, Raw Materials, 500
+3. Pens-P, Office Supplies, 50
+4. AC-Unit, Equipment, 5
+5. Cameras-CC, Miscellaneous, 10
+
+2. Testing function, get_sku_category()
+
+--------------------------------------------------------
+--- Inventory Item Manager: Select one of the following:
+1. Add & Save a Stock Keeping Unit (SKU)
+2. Remove an existing Stock Keeping Unit
+3. List all individual Stock Keeping Units
+4. Summarize the quantity of SKUs by Category
+5. Exit the Inventory Manager Application
+--------------------------------------------------------
+Which option would you like to select? (1 - 5): 4
+
+--------------------------------------------------------
+--- The Quantity in Stock by Category from inventory.txt:
+1. Consumer Goods, 100
+2. Raw Materials, 500
+3. Office Supplies, 50
+4. Equipment, 5
+5. Miscellaneous, 10

@@ -154,15 +154,13 @@ def summarize_inventory(file_name):
                     inventory_sum[category] += quantity
                 else:
                     inventory_sum[category] = quantity
+            return inventory_sum
     except IndexError:
         print("File not specified correctly!", file=sys.stderr)
     except FileNotFoundError:
         print(f"{file_name} was not found!", file=sys.stderr)
     except OSError:
         print(f"Something happened while reading the file: {file_name}", file=sys.stderr)
-
-    for key, value in inventory_sum.items():
-        print(f"{key}: {value}")
 
 
 def list_skus(file_name):
@@ -177,15 +175,12 @@ def list_skus(file_name):
     sku_list = []
     try:
         with open(file_name, "r") as file:
-            counter = 0
             for line in file:
                 line_parts = line.strip().split(",")
                 sku = line_parts[0].strip()
                 category = line_parts[1].strip()
                 quantity = line_parts[2].strip()
                 sku_list.append((sku, category, quantity))
-                counter += 1
-                print(f"{counter}: {sku}, {category}, {quantity}")
             return sku_list
     except FileNotFoundError:
         print(f"{file_name} was not found!", file=sys.stderr)
@@ -202,22 +197,19 @@ def get_sku_to_remove(sku_list):
     Returns:
         str: The selected SKU to be removed.
     """
-    if not sku_list:
-        print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
-    else:
-        while True:
-            try:
-                selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
-                                           f" (1 - {len(sku_list)}): "))
-                if 1 <= selected_index <= len(sku_list):
-                    sku_to_remove = sku_list[selected_index - 1][0]
-                    return sku_to_remove
-                else:
-                    print("Invalid Selection: Please try again!", file=sys.stderr)
-                    print()
-            except ValueError:
-                print("Invalid Input: Please try again", file=sys.stderr)
+    while True:
+        try:
+            selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
+                                       f" (1 - {len(sku_list)}): "))
+            if 1 <= selected_index <= len(sku_list):
+                sku_to_remove = sku_list[selected_index - 1][0]
+                return sku_to_remove
+            else:
+                print("Invalid Selection: Please try again!", file=sys.stderr)
                 print()
+        except ValueError:
+            print("Invalid Input: Please try again", file=sys.stderr)
+            print()
 
 
 def remove_sku(sku_to_remove, file_name):
@@ -276,43 +268,63 @@ def main():
             print(f"Saved! You have successfully added {inventory_item.sku} to {file_name}!")
 
         elif selected_option == "2":
-            choices = ("1", "2")
-            print("----------------------------------------------------------------------")
-            print("--- Choose one of the following options to proceed:")
-            print(f"1. Permanently remove a single Inventory Item (SKU) from {file_name}")
-            print(f"2. Permanently remove ALL saved Inventory Items from {file_name}")
-            print("----------------------------------------------------------------------")
-            selected_choice = input(f"Which choice would you like to select? (1 - {len(choices)}): ")
-            selected_choice = selected_choice.strip()
-            while selected_choice not in choices:
-                selected_choice = input(f"Invalid Choice: Please enter a valid number! (1 - {len(choices)}): ")
-                selected_choice = selected_choice.strip()
-
-            if selected_choice == "1":
-                print("--------------------------------------------------------")
-                print("--- Select an Inventory Item that you'd like to remove: ")
-                sku_list = list_skus(file_name)
-                print("--------------------------------------------------------")
-                sku_to_remove = get_sku_to_remove(sku_list)
-                if sku_to_remove:
-                    remove_sku(sku_to_remove, file_name)
-                    print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!")
-            elif selected_choice == "2":
-                clear_inventory(file_name)
-                print(f"You have permanently removed all Inventory Items from {file_name}!")
+            sku_list = list_skus(file_name)
+            if not sku_list:
+                print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
+                print()
             else:
-                print(f"Error! Something went wrong with, {selected_choice}")
+                choices = ("1", "2")
+                print("----------------------------------------------------------------------")
+                print("--- Choose one of the following options to proceed:")
+                print(f"1. Permanently remove a single Inventory Item (SKU) from {file_name}")
+                print(f"2. Permanently remove ALL saved Inventory Items from {file_name}")
+                print("----------------------------------------------------------------------")
+                selected_choice = input(f"Which choice would you like to select? (1 - {len(choices)}): ")
+                selected_choice = selected_choice.strip()
+                while selected_choice not in choices:
+                    selected_choice = input(f"Invalid Choice: Please enter a valid number! (1 - {len(choices)}): ")
+                    selected_choice = selected_choice.strip()
+
+                if selected_choice == "1":
+                    print("--------------------------------------------------------")
+                    print("--- Select an Inventory Item that you'd like to remove: ")
+                    for index, item in enumerate(sku_list, 1):
+                        print(f"{index}. {item[0]}, {item[1]}, {item[2]}")
+                    print("--------------------------------------------------------")
+                    sku_to_remove = get_sku_to_remove(sku_list)
+                    if sku_to_remove:
+                        remove_sku(sku_to_remove, file_name)
+                        print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!")
+
+                elif selected_choice == "2":
+                    clear_inventory(file_name)
+                    print(f"You have permanently removed all Inventory Items from {file_name}!")
+                else:
+                    print(f"Error! Something went wrong with, {selected_choice}")
 
         elif selected_option == "3":
-            print("----------------------------------------------------------------")
-            print(f"--- All individually saved Stock Keeping Units from {file_name}")
-            list_skus(file_name)
+            sku_list = list_skus(file_name)
+            if not sku_list:
+                print("There are currently no saved Stock Keeping Units (SKUs) to be listed!", file=sys.stderr)
+                print()
+            else:
+                print("----------------------------------------------------------------")
+                print(f"--- All individually saved Stock Keeping Units from {file_name}")
+                for index, item in enumerate(sku_list, 1):
+                    print(f"{index}. {item[0]}, {item[1]}, {item[2]}")
 
         elif selected_option == "4":
-            print("--------------------------------------------------------")
-            print(f"--- The Quantity in Stock by Category from {file_name}:")
-            summarize_inventory(file_name)
-            print("--------------------------------------------------------")
+            sku_list = list_skus(file_name)
+            if not sku_list:
+                print("There are currently no saved Inventory Items to be summarized!", file=sys.stderr)
+                print()
+            else:
+                print("--------------------------------------------------------")
+                print(f"--- The Quantity in Stock by Category from {file_name}:")
+                inventory_sum = summarize_inventory(file_name)
+                for key, category in enumerate(inventory_sum, 1):
+                    print(f"{key}. {category}, {inventory_sum[category]}")
+                print("--------------------------------------------------------")
 
         else:
             print(f"Error! Something went wrong with, {selected_option}")

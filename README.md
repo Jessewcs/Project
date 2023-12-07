@@ -119,7 +119,7 @@ def write_inventory_to_file(inventory_item: InventoryItem, file_name):
     except OSError:
         print(f"Something happened while writing to the file: {file_name}", file=sys.stderr)
 ```
-The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and appends it into a specified file accordingly to ensure the data will be added to the file, not written over and the information always be neat, concise, and persistent in the file.
+The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and adds it into a specified file accordingly to ensure the data will be added to the file, not written over and the information always be neat, concise, and persistent in the file.
 
 ```python
 def summarize_inventory(file_name):
@@ -158,15 +158,12 @@ def list_skus(file_name):
     sku_list = []
     try:
         with open(file_name, "r") as file:
-            counter = 0
             for line in file:
                 line_parts = line.strip().split(",")
                 sku = line_parts[0].strip()
                 category = line_parts[1].strip()
                 quantity = line_parts[2].strip()
                 sku_list.append((sku, category, quantity))
-                counter += 1
-                print(f"{counter}: {sku}, {category}, {quantity}")
             return sku_list
     except FileNotFoundError:
         print(f"{file_name} was not found!", file=sys.stderr)
@@ -174,25 +171,23 @@ def list_skus(file_name):
         print(f"Something happened while reading the file: {file_name}", file=sys.stderr)
 
 ```
-The function, list_skus(file_name) is something I particularly struggled with and am proud of. I was unable to print the data from the file accordingly, many issues rose from attempting to list, and it was difficult to format it in the way where the user interface looked the simplest. I needed to provide a list of all saved SKUs in order to allow the user to view them via console or terminal and prior to selecting an index, so this was extremely important to me that it worked. I tried incorporating this as a dictionary, but I was unable to successfully do that. Instead, I decided to use a counter as my index and loop through each line in the file, assign each individual part in the line, and append it to sku_list, which is essentially a list of tuples. Each tuple represents a SKU and its associated details category and quantity in stock. This function also proved indeed useful as it allowed me to  give the user an additional option in the menu to simply list all of their individual inventory they've saved.
+The function, list_skus(file_name) is something I particularly struggled with. I was unable to print the data from the file accordingly, many issues rose from attempting to list, and it was difficult to format it in the way where the user interface looked the simplest. I needed to provide a list of all saved SKUs in order to allow the user to view them via console or terminal and prior to selecting an index, so this was extremely important to me that it worked. I tried incorporating this as a dictionary, but I was unable to successfully do that. Instead, I decided to use a counter as my index and loop through each line in the file, assign each individual part in the line, and append it to sku_list, which is essentially a list of tuples. Each tuple represents a SKU and its associated details category and quantity in stock. This function also proved indeed useful as it allowed me to  give the user an additional option in the menu to simply list all of their individual inventory they've saved.
 
 ```python
 def get_sku_to_remove(sku_list):
-    if not sku_list:
-        print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
-    else:
-        while True:
-            try:
-                selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
-                                           f" (1 - {len(sku_list)}): "))
-                if 1 <= selected_index <= len(sku_list):
-                    return sku_list[selected_index - 1][0]
-                else:
-                    print("Invalid Selection: Please try again!", file=sys.stderr)
-                    print()
-            except ValueError:
-                print("Invalid Input: Please try again", file=sys.stderr)
+    while True:
+        try:
+            selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
+                                       f" (1 - {len(sku_list)}): "))
+            if 1 <= selected_index <= len(sku_list):
+                sku_to_remove = sku_list[selected_index - 1][0]
+                return sku_to_remove
+            else:
+                print("Invalid Selection: Please try again!", file=sys.stderr)
                 print()
+        except ValueError:
+            print("Invalid Input: Please try again", file=sys.stderr)
+            print()
 ```
 The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a provided SKU list, which is printed prior to selection. The user will be unable to remove a SKU from an empty inventory. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's choice to match the correct index in sku_list. We then have to return the selected SKU from the list of tuples. This function is essential to manage inventory levels, and by efficiently providing a list of SKUs to choose from, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
 
