@@ -149,7 +149,7 @@ The function, summarize_inventory(file_name) summarizes the data inserted to the
 def clear_inventory(file_name):
     open(file_name, "w").close()
 ```
-The function, clear_inventory(file_name) was incorporated because of quarterly inventory checks. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
+The function, clear_inventory(file_name) empties a given text file by opening the file in write mode and then immediately closing. If the file already exists, opening the file in write mode will erase its content. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
 
 ### Major Challenges
 The process of incorporating the option for a user to remove an inventory item was one of my bigger struggles throughout this project. I knew this had to be completed because of how essential it is to be able to remove and update SKUs by their quantity in stock.
