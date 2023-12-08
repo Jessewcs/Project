@@ -17,7 +17,7 @@ I believe this application provides a very clear and user-friendly interface for
 The user can simply clone the repository from GitHub to their computer. Use the terminal to navigate to the directory. Upon execution, a menu will be displayed, prompting the user to select from various options. Each option available leads to a different functionality, facilitating an interactive experience for the user.
 
 ## Installation Instructions
-No external APIs or dependencies are required for this version of the application. Ensure python is installed on your system. The user can then simply clone the repository from GitHub to their computer. This should include inventory_manager.py, inventory_spec.py, and inventory.txt. The text file's purpose is for tracking inventory levels as they fluctuate from being added and removed. The text file might already contain some inventory data which can be useful for testing purposes. Simply run the application and select the remove inventory item option from the prompted menu selection to clear the inventory data. Use the terminal to navigate to the directory. Once you are in the correct directory execute the "python inventory_manager.py" command if you are on windows or "python3 inventory_manager.py" if you are on Mac.
+No external APIs or dependencies are required for this version of the application. The user can then simply clone the repository from GitHub to their computer. This should include inventory_manager.py, inventory_spec.py, and inventory.txt. The text file's purpose is for tracking inventory levels as they fluctuate from being added and removed. The text file might already contain some inventory data which can be useful for testing purposes. Simply run the application and select the remove inventory item option from the prompted menu selection to clear the inventory data. Use the terminal to navigate to the directory. Once you are in the correct directory execute the "python inventory_manager.py" command if you are on windows or "python3 inventory_manager.py" if you are on Mac.
 ## Code Review
 
 Key aspects of the Inventory Manager Application that I believe are integral parts of the application in order for the program to come together efficiently:
@@ -73,7 +73,7 @@ def get_sku_quantity():
             print("Invalid Input: Please enter a valid number!", file=sys.stderr)
             print()
 ```
-The function, get_ski_quantity() prompts the user for a valid integral value quantity for that specific SKU. 
+The function, get_sku_quantity() prompts the user for a valid integral value quantity for that specific SKU. 
 
 ```python    
 def get_sku_category():
@@ -134,14 +134,13 @@ def summarize_inventory(file_name):
                     inventory_sum[category] += quantity
                 else:
                     inventory_sum[category] = quantity
+            return inventory_sum
     except IndexError:
         print("File not specified correctly!", file=sys.stderr)
     except FileNotFoundError:
         print(f"{file_name} was not found!", file=sys.stderr)
     except OSError:
         print(f"Something happened while reading the file: {file_name}", file=sys.stderr)
-    for key, value in inventory_sum.items():
-        print(f"{key}: {value}")
 ```
 The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part, category name, in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
 
@@ -215,7 +214,7 @@ The function, remove_sku(sku_to_remove, file_name) receives the specified valid 
 Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
 
 ## Testing
-To ensure the robustness of my Inventory Manager Application, I conducted extensive manuel testing through the terminal. I ran the application and meticulously tested for a wide range of numerous edge cases and unexpected user inputs. My approach to coding this application was defensively oriented, focusing on thorough error handling to maintain the application's reliability under any sort of conditions the user may throw at it. I have documented the outputs of my thorough testing via text vile with this submission. By simulating a multitude of user interactions, I am confident that the application's functionality guarantees a smooth user experience.
+To ensure the robustness of my Inventory Manager Application, I conducted extensive manuel testing through the terminal. I ran the application and intentionally attempted to break the program, testing with a wide range of numerous edge cases and unexpected user inputs. My approach to coding this application was defensively oriented, focusing on thorough error handling to maintain the application's reliability under any sort of inputs the user may throw at it. I have documented the outputs of my thorough testing via text vile with this submission. By simulating a multitude of user interactions, I am confident that the application's functionality guarantees a smooth user experience.
 
 
 ## Missing Features / What's Next
