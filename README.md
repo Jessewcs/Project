@@ -79,8 +79,8 @@ def get_sku_category():
     print("----------------------------------")
     print("--- Select an Item (SKU) Category:")
     sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
-    for index, category in enumerate(sku_categories):
-        print(f"{index + 1}. {category}")
+    for index, category in enumerate(sku_categories, 1):
+        print(f"{index}. {category}")
     print("----------------------------------")
 
     while True:

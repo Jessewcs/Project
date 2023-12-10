@@ -82,8 +82,8 @@ def get_sku_category():
     print("----------------------------------")
     print("--- Select an Item (SKU) Category:")
     sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
-    for index, category in enumerate(sku_categories):
-        print(f"{index + 1}. {category}")
+    for index, category in enumerate(sku_categories, 1):
+        print(f"{index}. {category}")
     print("----------------------------------")
 
     while True:
@@ -278,6 +278,7 @@ def main():
         elif selected_option == "2":
             sku_list = list_skus(file_name)
             if not sku_list:
+                print()
                 print("There are currently no saved Stock Keeping Units (SKUs) to be removed!\n\n")
             else:
                 choices = ("1", "2")
@@ -313,6 +314,7 @@ def main():
         elif selected_option == "3":
             sku_list = list_skus(file_name)
             if not sku_list:
+                print()
                 print("There are currently no saved Stock Keeping Units (SKUs) to be listed!\n\n")
             else:
                 print("----------------------------------------------------------------")
@@ -324,6 +326,7 @@ def main():
         elif selected_option == "4":
             sku_list = list_skus(file_name)
             if not sku_list:
+                print()
                 print("There are currently no saved Inventory Items to be summarized!\n\n")
             else:
                 print("--------------------------------------------------------")
