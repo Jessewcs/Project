@@ -37,7 +37,6 @@ def get_option():
     while selected_index not in options:
         selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ")
         selected_index = selected_index.strip()
-    print()
     return selected_index
 ```
 The function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
@@ -46,20 +45,18 @@ The function, get_option() is what provides the user an interface for selecting 
 def get_sku():
     while True:
         try:
-            item = input("Enter the item name (e.g. 'Shirt', 'Pen'): ")
+            item = input("Enter the item name (e.g. 'Shirt'): ")
             if item.strip() and item.isalnum():
                 unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ")
                 if unique_sku.strip():
                     sku = f"{item}-{unique_sku}"
                     return sku
                 else:
-                    print("Invalid Input: Unique identifier cannot be empty!", file=sys.stderr)
+                    print("Invalid Input: Unique identifier cannot be empty!")
             else:
-                print("Invalid Input: Please enter a valid alphanumeric item name!", file=sys.stderr)
-            print()
+                print("Invalid Input: Please enter a valid alphanumeric item name!")
         except ValueError:
-            print("Unexpected Error: Please try again!", file=sys.stderr)
-            print()
+            print("Error: Please try again!")
 ```
 The function, get_sku() prompts the user for two inputs, an alphanumeric item name and a unique identifier for that item. it combines the two inputs with a hyphen to construct an SKU in the format 'ItemName-UniqueIdentifier'.
 
@@ -72,11 +69,9 @@ def get_sku_quantity():
             if quantity >= 0:
                 return sku, quantity
             else:
-                print("Invalid Input: Please provide a non-negative quantity!", file=sys.stderr)
-                print()
+                print("Invalid Input: Please provide a non-negative quantity!")
         except ValueError:
-            print("Invalid Input: Please enter a valid numeric quantity amount!", file=sys.stderr)
-            print()
+            print("Invalid Input: Please enter a valid numeric quantity amount!")
 ```
 The function, get_sku_quantity() prompts the user for a valid integral value quantity for that specific SKU. 
 
@@ -97,11 +92,9 @@ def get_sku_category():
                 selected_category = sku_categories[selected_index - 1]
                 return selected_category
             else:
-                print("Invalid Input: Please provide a valid category number!", file=sys.stderr)
-                print()
+                print("Invalid Input: Please provide a valid category number!")
         except ValueError:
-            print("Invalid Input: Please try again!", file=sys.stderr)
-            print()
+            print("Invalid Input: Please try again!")
 ```
 The function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's selected category to match the correct index.
 
@@ -120,9 +113,9 @@ def write_inventory_to_file(inventory_item: InventoryItem, file_name):
             file.write(inventory_string)
             file.write("\n")
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while writing to the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while writing to the file: {file_name}")
 ```
 The function, write_inventory_to_file(inventory_item, file_name) takes in an InventoryItem object and adds it into a specified file accordingly to ensure the data will be added to the file, not written over and the information always be neat, concise, and persistent in the file.
 
@@ -141,12 +134,12 @@ def summarize_inventory(file_name):
                     else:
                         inventory_sum[category] = quantity
                 except IndexError:
-                    print(f"Error: File not specified correctly, line: {line}", file=sys.stderr)
+                    print(f"Error: File not specified correctly, line: {line}")
             return inventory_sum
     except FileNotFoundError:
-        print(f"{file_name} was not found!", file=sys.stderr)
+        print(f"{file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while reading the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while reading the file: {file_name}")
 ```
 The function, summarize_inventory(file_name) summarizes the data inserted to the file previously by category. It reads the file, breaks down each line in the file into individual parts to access the specific part, category name, in each line and then adds it into a dictionary, pairing it with the quantity in stock, and if there are multiple SKUs in the same category, their quantity will be summed.
 
@@ -155,9 +148,9 @@ def clear_inventory(file_name):
     try:
         open(file_name, "w").close()
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while modifying the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while modifying the file: {file_name}")
 ```
 The function, clear_inventory(file_name) empties a given text file by opening the file in write mode and then immediately closing. If the file already exists, opening the file in write mode will erase its content. Inventory levels constantly fluctuate, quantities can be wrong, so the user has the option to reset their inventory and restart, usually at the beginning/end of the quarter to determine the exact quantity in stock for specific SKUs and categories.
 
@@ -176,12 +169,12 @@ def list_skus(file_name):
                     quantity = line_parts[2].strip()
                     sku_list.append((sku, category, quantity))
                 except IndexError:
-                    print(f"Error: File not specified correctly, line: {line}", file=sys.stderr)
+                    print(f"Error: File not specified correctly, line: {line}")
             return sku_list
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while reading the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while reading the file: {file_name}")
 
 ```
 The function, list_skus(file_name) is something I particularly struggled with. I was unable to print the data from the file accordingly, many issues rose from attempting to list, and it was difficult to format it in the way where the user interface looked the simplest. I needed to provide a list of all saved SKUs in order to allow the user to view them via console or terminal and prior to selecting an index, so this was extremely important to me that it worked. I tried incorporating this as a dictionary, but I was unable to successfully do that. Instead, I decided to loop through each line in the file, assign each individual part in the line, and append it to sku_list, which is essentially a list of tuples. Each tuple represents a SKU and its associated details category and quantity in stock. Previously I had a counter variable that acted as my index, however, printing the list in the function proved to cause several problems for me. So I decided to remove it and use the enumerate built-in function in main to accordingly print the sku_list. This function also proved indeed useful as it allowed me to  give the user an additional option in the menu to simply list all of their individual inventory they've saved.
@@ -196,11 +189,9 @@ def get_sku_to_remove(sku_list):
                 sku_to_remove = sku_list[selected_index - 1][0]
                 return sku_to_remove
             else:
-                print(f"Invalid Selection: Please provide a valid option!", file=sys.stderr)
-                print()
+                print("Invalid Selection: Please provide a valid option!")
         except ValueError:
-            print("Invalid Input: Please try again", file=sys.stderr)
-            print()
+            print("Invalid Input: Please try again")
 ```
 The function, get_sku_to_remove(sku_list) facilitates the removal of a specific SKU by letting the user choose from a provided SKU list, which is printed prior to selection. The user will be unable to remove a SKU from an empty inventory. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's choice to match the correct index in sku_list. We then have to return the selected SKU from the list of tuples. This function is essential to manage inventory levels, and by efficiently providing a list of SKUs to choose from, the user-friendly interface will allow the user to easily select the SKU and permanently remove it.
 
@@ -218,18 +209,18 @@ def remove_sku(sku_to_remove, file_name):
                     if sku != sku_to_remove:
                         file.write(line)
                 except IndexError:
-                    print(f"Error: File not specified correctly, line: {line}", file=sys.stderr)
+                    print(f"Error: File not specified correctly, line: {line}")
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while modifying the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while modifying the file: {file_name}")
 
 ```
 The function, remove_sku(sku_to_remove, file_name) receives the specified valid SKU to remove from the file. We'll first have to open the inventory file and read through all the lines of the file and store them in lines. The function then opens the same file and attempts to write over the original contents of the file. This is particularly useful here because the function will iterate over each line, then split the line into individual parts. Since we know  the SKU is always precisely first in each line, we can use that to compare it with the user's sku_to_remove selection. If the SKU in the current line does not match the user's selected SKU, then the line is written back to the file which is exactly what we want it to do. This will effectively remove the user's selected SKU from the inventory file.
 
 ## Example Runs
-Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
-
+Here's a video of running the application Inventory Item Manager and testing for possible unexpected user inputs:
+https://www.youtube.com/watch?v=wZwL82RWME0
 ## Testing
 To ensure the robustness of my Inventory Manager Application, I conducted extensive manuel testing through the terminal. I ran the application and intentionally attempted to break the program, testing with a wide range of numerous edge cases and unexpected user inputs. My approach to coding this application was defensively oriented, focusing on thorough error handling to maintain the application's reliability under any sort of inputs the user may throw at it. I have documented the outputs of my thorough testing via text vile with this submission. By simulating a multitude of user interactions, I am confident that the application's functionality guarantees a smooth user experience.
 

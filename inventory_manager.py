@@ -8,7 +8,6 @@ Student:  Jesse Wojtanowicz
 A comprehensive system designed to facilitate the management of stock keeping units (SKUs) in an inventory setting.
 """
 from inventory_spec import InventoryItem
-import sys
 
 
 def get_option():
@@ -31,7 +30,6 @@ def get_option():
     while selected_index not in options:
         selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ")
         selected_index = selected_index.strip()
-    print()
     return selected_index
 
 
@@ -50,13 +48,11 @@ def get_sku():
                     sku = f"{item}-{unique_sku}"
                     return sku
                 else:
-                    print("Invalid Input: Unique identifier cannot be empty!", file=sys.stderr)
+                    print("Invalid Input: Unique identifier cannot be empty!")
             else:
-                print("Invalid Input: Please enter a valid alphanumeric item name!", file=sys.stderr)
-            print()
+                print("Invalid Input: Please enter a valid alphanumeric item name!")
         except ValueError:
-            print("Unexpected Error: Please try again!", file=sys.stderr)
-            print()
+            print("Error: Please try again!")
 
 
 def get_sku_quantity():
@@ -73,11 +69,9 @@ def get_sku_quantity():
             if quantity >= 0:
                 return sku, quantity
             else:
-                print("Invalid Input: Please provide a non-negative quantity!", file=sys.stderr)
-                print()
+                print("Invalid Input: Please provide a non-negative quantity!")
         except ValueError:
-            print("Invalid Input: Please enter a valid numeric quantity amount!", file=sys.stderr)
-            print()
+            print("Invalid Input: Please enter a valid numeric quantity amount!")
 
 
 def get_sku_category():
@@ -101,11 +95,9 @@ def get_sku_category():
                 selected_category = sku_categories[selected_index - 1]
                 return selected_category
             else:
-                print("Invalid Input: Please provide a valid category number!", file=sys.stderr)
-                print()
+                print("Invalid Input: Please provide a valid category number!")
         except ValueError:
-            print("Invalid Input: Please try again!", file=sys.stderr)
-            print()
+            print("Invalid Input: Please try again!")
 
 
 def inventory_item_class(sku, category, quantity):
@@ -136,9 +128,9 @@ def write_inventory_to_file(inventory_item: InventoryItem, file_name):
             file.write(inventory_string)
             file.write("\n")
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while writing to the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while writing to the file: {file_name}")
 
 
 def summarize_inventory(file_name):
@@ -160,12 +152,12 @@ def summarize_inventory(file_name):
                     else:
                         inventory_sum[category] = quantity
                 except IndexError:
-                    print(f"Error: File not specified correctly, line: {line}", file=sys.stderr)
+                    print(f"Error: File not specified correctly, line: {line}")
             return inventory_sum
     except FileNotFoundError:
-        print(f"{file_name} was not found!", file=sys.stderr)
+        print(f"{file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while reading the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while reading the file: {file_name}")
 
 
 def list_skus(file_name):
@@ -188,12 +180,12 @@ def list_skus(file_name):
                     quantity = line_parts[2].strip()
                     sku_list.append((sku, category, quantity))
                 except IndexError:
-                    print(f"Error: File not specified correctly, line: {line}", file=sys.stderr)
+                    print(f"Error: File not specified correctly, line: {line}")
             return sku_list
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while reading the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while reading the file: {file_name}")
 
 
 def get_sku_to_remove(sku_list):
@@ -213,11 +205,9 @@ def get_sku_to_remove(sku_list):
                 sku_to_remove = sku_list[selected_index - 1][0]
                 return sku_to_remove
             else:
-                print(f"Invalid Selection: Please provide a valid option!", file=sys.stderr)
-                print()
+                print("Invalid Selection: Please provide a valid option!")
         except ValueError:
-            print("Invalid Input: Please try again", file=sys.stderr)
-            print()
+            print("Invalid Input: Please try again")
 
 
 def remove_sku(sku_to_remove, file_name):
@@ -239,11 +229,11 @@ def remove_sku(sku_to_remove, file_name):
                     if sku != sku_to_remove:
                         file.write(line)
                 except IndexError:
-                    print(f"Error: File not specified correctly, line: {line}", file=sys.stderr)
+                    print(f"Error: File not specified correctly, line: {line}")
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while modifying the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while modifying the file: {file_name}")
 
 
 def clear_inventory(file_name):
@@ -255,9 +245,9 @@ def clear_inventory(file_name):
     try:
         open(file_name, "w").close()
     except FileNotFoundError:
-        print(f"Error: {file_name} was not found!", file=sys.stderr)
+        print(f"Error: {file_name} was not found!")
     except OSError:
-        print(f"Error: Something happened while modifying the file: {file_name}", file=sys.stderr)
+        print(f"Error: Something happened while modifying the file: {file_name}")
 
 
 def main():
@@ -281,13 +271,13 @@ def main():
             category = get_sku_category()
             inventory_item = inventory_item_class(sku, category, quantity)
             write_inventory_to_file(inventory_item, file_name)
-            print(f"Saved! You have successfully added {inventory_item.sku} to {file_name}!")
+            print()
+            print(f"Saved! You have successfully added {inventory_item.sku} to {file_name}!\n\n")
 
         elif selected_option == "2":
             sku_list = list_skus(file_name)
             if not sku_list:
-                print("There are currently no saved Stock Keeping Units (SKUs) to be removed!", file=sys.stderr)
-                print()
+                print("There are currently no saved Stock Keeping Units (SKUs) to be removed!\n\n")
             else:
                 choices = ("1", "2")
                 print("----------------------------------------------------------------------")
@@ -310,37 +300,38 @@ def main():
                     sku_to_remove = get_sku_to_remove(sku_list)
                     if sku_to_remove:
                         remove_sku(sku_to_remove, file_name)
-                        print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!")
+                        print()
+                        print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!\n\n")
 
                 elif selected_choice == "2":
                     clear_inventory(file_name)
-                    print(f"You have permanently removed all Inventory Items from {file_name}!")
+                    print()
+                    print(f"You have permanently removed all Inventory Items from {file_name}!\n\n")
                 else:
                     print(f"Error: Something went wrong with, {selected_choice}")
 
         elif selected_option == "3":
             sku_list = list_skus(file_name)
             if not sku_list:
-                print("There are currently no saved Stock Keeping Units (SKUs) to be listed!", file=sys.stderr)
-                print()
+                print("There are currently no saved Stock Keeping Units (SKUs) to be listed!\n\n")
             else:
                 print("----------------------------------------------------------------")
                 print(f"--- All individually saved Stock Keeping Units from {file_name}")
                 for index, item in enumerate(sku_list, 1):
                     print(f"{index}. {item[0]}, {item[1]}, {item[2]}")
+                print("----------------------------------------------------------------\n\n")
 
         elif selected_option == "4":
             sku_list = list_skus(file_name)
             if not sku_list:
-                print("There are currently no saved Inventory Items to be summarized!", file=sys.stderr)
-                print()
+                print("There are currently no saved Inventory Items to be summarized!\n\n")
             else:
                 print("--------------------------------------------------------")
                 print(f"--- The Quantity in Stock by Category from {file_name}:")
                 inventory_sum = summarize_inventory(file_name)
                 for key, category in enumerate(inventory_sum, 1):
                     print(f"{key}. {category}, {inventory_sum[category]}")
-                print("--------------------------------------------------------")
+                print("--------------------------------------------------------\n\n")
 
         else:
             print(f"Error: Something went wrong with, {selected_option}")
