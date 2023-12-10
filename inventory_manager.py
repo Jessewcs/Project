@@ -25,11 +25,9 @@ def get_option():
     print("4. Summarize the quantity of SKUs by Category")
     print("5. Exit the Inventory Manager Application")
     print("--------------------------------------------------------")
-    selected_index = input(f"Which option would you like to select? (1 - {len(options)}): ")
-    selected_index = selected_index.strip()
+    selected_index = input(f"Which option would you like to select? (1 - {len(options)}): ").strip()
     while selected_index not in options:
-        selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ")
-        selected_index = selected_index.strip()
+        selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ").strip()
     return selected_index
 
 
@@ -41,10 +39,10 @@ def get_sku():
     """
     while True:
         try:
-            item = input("Enter the item name (e.g. 'Shirt'): ")
-            if item.strip() and item.isalnum():
-                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ")
-                if unique_sku.strip():
+            item = input("Enter the item name (e.g. 'Shirt'): ").strip()
+            if item and item.isalnum():
+                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ").strip()
+                if unique_sku:
                     sku = f"{item}-{unique_sku}"
                     return sku
                 else:
@@ -65,7 +63,8 @@ def get_sku_quantity():
     sku = get_sku()
     while True:
         try:
-            quantity = int(input(f"Enter the quantity in stock for item, {sku}: "))
+            quantity = input(f"Enter the quantity in stock for item, {sku}: ").strip()
+            quantity = int(quantity)
             if quantity >= 0:
                 return sku, quantity
             else:
@@ -89,8 +88,9 @@ def get_sku_category():
 
     while True:
         try:
-            selected_index = int(input(f"Enter the category where your SKU belongs to (1 - "
-                                       f"{len(sku_categories)}): "))
+            selected_index = input(f"Enter the category where your SKU belongs to (1 - "
+                                   f"{len(sku_categories)}): ").strip()
+            selected_index = int(selected_index)
             if 1 <= selected_index <= len(sku_categories):
                 selected_category = sku_categories[selected_index - 1]
                 return selected_category
@@ -199,8 +199,9 @@ def get_sku_to_remove(sku_list):
     """
     while True:
         try:
-            selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
-                                       f" (1 - {len(sku_list)}): "))
+            selected_index = input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
+                                   f" (1 - {len(sku_list)}): ").strip()
+            selected_index = int(selected_index)
             if 1 <= selected_index <= len(sku_list):
                 sku_to_remove = sku_list[selected_index - 1][0]
                 return sku_to_remove
@@ -285,11 +286,10 @@ def main():
                 print(f"1. Permanently remove a single Inventory Item (SKU) from {file_name}")
                 print(f"2. Permanently remove ALL saved Inventory Items from {file_name}")
                 print("----------------------------------------------------------------------")
-                selected_choice = input(f"Which choice would you like to select? (1 - {len(choices)}): ")
-                selected_choice = selected_choice.strip()
+                selected_choice = input(f"Which choice would you like to select? (1 - {len(choices)}): ").strip()
                 while selected_choice not in choices:
-                    selected_choice = input(f"Invalid Choice: Please enter a valid number! (1 - {len(choices)}): ")
-                    selected_choice = selected_choice.strip()
+                    selected_choice = input(f"Invalid Choice: Please enter a valid number! "
+                                            f"(1 - {len(choices)}): ").strip()
 
                 if selected_choice == "1":
                     print("--------------------------------------------------------")

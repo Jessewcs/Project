@@ -32,11 +32,9 @@ def get_option():
     print("4. Summarize the quantity of SKUs by Category")
     print("5. Exit the Inventory Manager Application")
     print("--------------------------------------------------------")
-    selected_index = input(f"Which option would you like to select? (1 - {len(options)}): ")
-    selected_index = selected_index.strip()
+    selected_index = input(f"Which option would you like to select? (1 - {len(options)}): ").strip()
     while selected_index not in options:
-        selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ")
-        selected_index = selected_index.strip()
+        selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ").strip()
     return selected_index
 ```
 The function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
@@ -45,10 +43,10 @@ The function, get_option() is what provides the user an interface for selecting 
 def get_sku():
     while True:
         try:
-            item = input("Enter the item name (e.g. 'Shirt'): ")
-            if item.strip() and item.isalnum():
-                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ")
-                if unique_sku.strip():
+            item = input("Enter the item name (e.g. 'Shirt'): ").strip()
+            if item and item.isalnum():
+                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ").strip()
+                if unique_sku:
                     sku = f"{item}-{unique_sku}"
                     return sku
                 else:
@@ -65,7 +63,8 @@ def get_sku_quantity():
     sku = get_sku()
     while True:
         try:
-            quantity = int(input(f"Enter the quantity in stock for item, {sku}: "))
+            quantity = input(f"Enter the quantity in stock for item, {sku}: ").strip()
+            quantity = int(quantity)
             if quantity >= 0:
                 return sku, quantity
             else:
@@ -86,8 +85,9 @@ def get_sku_category():
 
     while True:
         try:
-            selected_index = int(input(f"Enter the category where your SKU belongs to (1 - "
-                                       f"{len(sku_categories)}): "))
+            selected_index = input(f"Enter the category where your SKU belongs to (1 - "
+                                   f"{len(sku_categories)}): ").strip()
+            selected_index = int(selected_index)
             if 1 <= selected_index <= len(sku_categories):
                 selected_category = sku_categories[selected_index - 1]
                 return selected_category
@@ -183,8 +183,9 @@ The function, list_skus(file_name) is something I particularly struggled with. I
 def get_sku_to_remove(sku_list):
     while True:
         try:
-            selected_index = int(input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
-                                       f" (1 - {len(sku_list)}): "))
+            selected_index = input(f"Select the Stock Keeping Unit (SKU) that you wish to remove"
+                                   f" (1 - {len(sku_list)}): ").strip()
+            selected_index = int(selected_index)
             if 1 <= selected_index <= len(sku_list):
                 sku_to_remove = sku_list[selected_index - 1][0]
                 return sku_to_remove
@@ -222,7 +223,7 @@ The function, remove_sku(sku_to_remove, file_name) receives the specified valid 
 Here's a video of running the application Inventory Item Manager and testing for possible unexpected user inputs:
 https://www.youtube.com/watch?v=wZwL82RWME0
 ## Testing
-To ensure the robustness of my Inventory Manager Application, I conducted extensive manuel testing through the terminal. I ran the application and intentionally attempted to break the program, testing with a wide range of numerous edge cases and unexpected user inputs. My approach to coding this application was defensively oriented, focusing on thorough error handling to maintain the application's reliability under any sort of inputs the user may throw at it. I have documented the outputs of my thorough testing via text vile with this submission. By simulating a multitude of user interactions, I am confident that the application's functionality guarantees a smooth user experience.
+To ensure the robustness of my Inventory Manager Application, I conducted extensive manuel testing through the terminal. I ran the application and intentionally attempted to break the program, testing with a wide range of numerous edge cases and unexpected user inputs. My approach to coding this application was defensively oriented, focusing on thorough error handling to maintain the application's reliability under any sort of inputs the user may throw at it. I have documented the outputs of my thorough testing via text file with this submission. By simulating a multitude of user interactions, I am confident that the application's functionality guarantees a smooth user experience.
 
 
 ## Missing Features / What's Next
