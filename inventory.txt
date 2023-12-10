@@ -1,5 +1,0 @@
-Shirt-XYZ, Consumer Goods, 100
-Steel-AAA, Raw Materials, 500
-Pens-P, Office Supplies, 50
-AC-Unit, Equipment, 5
-Cameras-CC, Miscellaneous, 10
