@@ -35,18 +35,18 @@ def get_sku():
     """ Prompts the user to enter an item name and a unique identifier to create an SKU.
 
     Returns:
-        str: A string representing the SKU in the format 'ItemName-UniqueIdentifier'.
+        str: A string representing the SKU in the format ItemName-UniqueIdentifier.
     """
     while True:
         try:
             item = input("Enter the item name (e.g. 'Shirt'): ").strip()
-            if item and item.isalnum():
-                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ").strip()
-                if unique_sku:
-                    sku = f"{item}-{unique_sku}"
+            if item != "" and item.isalnum():
+                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ123'): ").strip()
+                if len(unique_sku) == 6 and unique_sku[:3].isalnum() and unique_sku[3:].isalnum():
+                    sku = f"{item}-{unique_sku[:3]}-{unique_sku[3:]}"
                     return sku
                 else:
-                    print("Invalid Input: Unique identifier cannot be empty!")
+                    print("Invalid Input: Please enter a valid format for the unique identifier! (e.g. 'ABC123')")
             else:
                 print("Invalid Input: Please enter a valid alphanumeric item name!")
         except ValueError:
@@ -61,6 +61,7 @@ def get_sku_quantity():
         tuple: A tuple containing the SKU as a string and its quantity as an integer.
     """
     sku = get_sku()
+
     while True:
         try:
             quantity = input(f"Enter the quantity in stock for item, {sku}: ").strip()
@@ -73,18 +74,29 @@ def get_sku_quantity():
             print("Invalid Input: Please enter a valid numeric quantity amount!")
 
 
-def get_sku_category():
+def list_sku_categories(sku_categories):
+    """ Displays a list of categories for the user.
+
+    Parameters:
+        sku_categories (list): A list of available categories
+    """
+    print("----------------------------------")
+    print("--- Select an Item (SKU) Category:")
+    for index, category in enumerate(sku_categories, 1):
+        print(f"{index}. {category}")
+    print("----------------------------------")
+
+
+def get_sku_category(sku_categories):
     """ Displays a list of categories and prompts the user to select one.
+
+    Parameters:
+        sku_categories (list): A list of available categories
 
     Returns:
         str: The selected category.
     """
-    print("----------------------------------")
-    print("--- Select an Item (SKU) Category:")
-    sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
-    for index, category in enumerate(sku_categories, 1):
-        print(f"{index}. {category}")
-    print("----------------------------------")
+    list_sku_categories(sku_categories)
 
     while True:
         try:
@@ -261,28 +273,26 @@ def main():
         selected_option = get_option()
 
         if selected_option == "5":
-            print()
-            print("We'll see you next time!")
+            print("\nWe'll see you next time!")
             break
 
         elif selected_option == "1":
-            print("Welcome to your Inventory Item Managing System:")
+            print("\nWelcome to your Inventory Item Managing System:")
             print("----------------------------------------------")
             sku, quantity = get_sku_quantity()
-            category = get_sku_category()
+            sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
+            category = get_sku_category(sku_categories)
             inventory_item = inventory_item_class(sku, category, quantity)
             write_inventory_to_file(inventory_item, file_name)
-            print()
-            print(f"Saved! You have successfully added {inventory_item.sku} to {file_name}!\n\n")
+            print(f"\nSaved! You have successfully added {inventory_item.sku} to {file_name}!\n")
 
         elif selected_option == "2":
             sku_list = list_skus(file_name)
             if not sku_list:
-                print()
-                print("There are currently no saved Stock Keeping Units (SKUs) to be removed!\n\n")
+                print("\nThere are currently no saved Stock Keeping Units (SKUs) to be removed!\n")
             else:
                 choices = ("1", "2")
-                print("----------------------------------------------------------------------")
+                print("\n----------------------------------------------------------------------")
                 print("--- Choose one of the following options to proceed:")
                 print(f"1. Permanently remove a single Inventory Item (SKU) from {file_name}")
                 print(f"2. Permanently remove ALL saved Inventory Items from {file_name}")
@@ -293,7 +303,7 @@ def main():
                                             f"(1 - {len(choices)}): ").strip()
 
                 if selected_choice == "1":
-                    print("--------------------------------------------------------")
+                    print("\n--------------------------------------------------------")
                     print("--- Select an Inventory Item that you'd like to remove: ")
                     for index, item in enumerate(sku_list, 1):
                         print(f"{index}. {item[0]}, {item[1]}, {item[2]}")
@@ -301,43 +311,39 @@ def main():
                     sku_to_remove = get_sku_to_remove(sku_list)
                     if sku_to_remove:
                         remove_sku(sku_to_remove, file_name)
-                        print()
-                        print(f"Stock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!\n\n")
+                        print(f"\nStock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!\n")
 
                 elif selected_choice == "2":
                     clear_inventory(file_name)
-                    print()
-                    print(f"You have permanently removed all Inventory Items from {file_name}!\n\n")
+                    print(f"\nYou have permanently removed all Inventory Items from {file_name}!\n")
                 else:
-                    print(f"Error: Something went wrong with, {selected_choice}")
+                    print(f"\nError: Something went wrong with, {selected_choice}")
 
         elif selected_option == "3":
             sku_list = list_skus(file_name)
             if not sku_list:
-                print()
-                print("There are currently no saved Stock Keeping Units (SKUs) to be listed!\n\n")
+                print("\nThere are currently no saved Stock Keeping Units (SKUs) to be listed!\n")
             else:
-                print("----------------------------------------------------------------")
+                print("\n----------------------------------------------------------------")
                 print(f"--- All individually saved Stock Keeping Units from {file_name}")
                 for index, item in enumerate(sku_list, 1):
                     print(f"{index}. {item[0]}, {item[1]}, {item[2]}")
-                print("----------------------------------------------------------------\n\n")
+                print("----------------------------------------------------------------\n")
 
         elif selected_option == "4":
             sku_list = list_skus(file_name)
             if not sku_list:
-                print()
-                print("There are currently no saved Inventory Items to be summarized!\n\n")
+                print("\nThere are currently no saved Inventory Items to be summarized!\n")
             else:
-                print("--------------------------------------------------------")
+                print("\n--------------------------------------------------------")
                 print(f"--- The Quantity in Stock by Category from {file_name}:")
                 inventory_sum = summarize_inventory(file_name)
                 for key, category in enumerate(inventory_sum, 1):
                     print(f"{key}. {category}, {inventory_sum[category]}")
-                print("--------------------------------------------------------\n\n")
+                print("--------------------------------------------------------\n")
 
         else:
-            print(f"Error: Something went wrong with, {selected_option}")
+            print(f"\nError: Something went wrong with, {selected_option}")
 
 
 if __name__ == "__main__":

@@ -44,23 +44,24 @@ def get_sku():
     while True:
         try:
             item = input("Enter the item name (e.g. 'Shirt'): ").strip()
-            if item and item.isalnum():
-                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ-123'): ").strip()
-                if unique_sku:
-                    sku = f"{item}-{unique_sku}"
+            if item != "" and item.isalnum():
+                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ123'): ").strip()
+                if len(unique_sku) == 6 and unique_sku[:3].isalnum() and unique_sku[3:].isalnum():
+                    sku = f"{item}-{unique_sku[:3]}-{unique_sku[3:]}"
                     return sku
                 else:
-                    print("Invalid Input: Unique identifier cannot be empty!")
+                    print("Invalid Input: Please enter a valid format for the unique identifier! (e.g. 'ABC123')")
             else:
                 print("Invalid Input: Please enter a valid alphanumeric item name!")
         except ValueError:
             print("Error: Please try again!")
 ```
-The function, get_sku() prompts the user for two inputs, an alphanumeric item name and a unique identifier for that item. it combines the two inputs with a hyphen to construct an SKU in the format 'ItemName-UniqueIdentifier'.
+The function, get_sku() prompts the user for two inputs, an item name and a 6 digit unique identifier for that item, only allowing the user to enter alphanumeric inputs. It combines the two inputs with a hyphen to construct an SKU in the format 'ItemName-UniqueIdentifier'.
 
 ```python
 def get_sku_quantity():
     sku = get_sku()
+    
     while True:
         try:
             quantity = input(f"Enter the quantity in stock for item, {sku}: ").strip()
@@ -76,12 +77,7 @@ The function, get_sku_quantity() prompts the user for a valid integral value qua
 
 ```python    
 def get_sku_category():
-    print("----------------------------------")
-    print("--- Select an Item (SKU) Category:")
-    sku_categories = ["Raw Materials", "Consumer Goods", "Office Supplies", "Equipment", "Miscellaneous"]
-    for index, category in enumerate(sku_categories, 1):
-        print(f"{index}. {category}")
-    print("----------------------------------")
+    list_sku_categories(sku_categories)
 
     while True:
         try:
@@ -96,7 +92,7 @@ def get_sku_category():
         except ValueError:
             print("Invalid Input: Please try again!")
 ```
-The function, get_sku_category() shows the user all available categories to label their most recent inputted SKU and returns the user's valid category selection. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's selected category to match the correct index.
+The function, get_sku_category() displays the user each available categories to label their most recent inputted SKU and returns the user's valid category selection. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's selected category to match the correct index.
 
 ```python
 def inventory_item_class(sku, category, quantity):
