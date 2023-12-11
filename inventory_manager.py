@@ -316,7 +316,8 @@ def main():
                       "Stock Keeping Units (SKUs) to be removed!\n")
             else:
                 choices = ("1", "2")
-                print("\n-" * 70)
+                print()
+                print("-" * 70)
                 print("--- Choose one of the following options to proceed:")
                 print(f"1. Permanently remove a single "
                       f"Inventory Item (SKU) from {file_name}")
