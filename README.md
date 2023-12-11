@@ -46,7 +46,7 @@ def get_sku():
             item = input("Enter the item name (e.g. 'Shirt'): ").strip()
             if item != "" and item.isalnum():
                 unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ123'): ").strip()
-                if len(unique_sku) == 6 and unique_sku.isalnum():
+                if len(unique_sku) == 6 and unique_sku[:3].isalpha() and unique_sku[3:].isdigit():
                     sku = f"{item}-{unique_sku[:3]}-{unique_sku[3:]}"
                     return sku
                 else:
@@ -56,7 +56,7 @@ def get_sku():
         except ValueError:
             print("Error: Please try again!")
 ```
-The function, get_sku() prompts the user for two inputs, an item name and a 6 digit unique identifier for that item, only allowing the user to enter alphanumeric inputs. It combines the two inputs with a hyphen to construct an SKU in the format 'ItemName-UniqueIdentifier'.
+The function, get_sku() prompts the user for two inputs, an item name and a 6 digit unique identifier for that item, only allowing the user to enter alphanumeric inputs to follow the desired unique stock keeping unit format. It combines the two inputs with a hyphen to construct an SKU in the format 'ItemName-UniqueIdentifier'.
 
 ```python
 def get_sku_quantity():
