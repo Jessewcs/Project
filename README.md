@@ -76,7 +76,7 @@ def get_sku_quantity():
 The function, get_sku_quantity() prompts the user for a valid integral value quantity for that specific SKU. 
 
 ```python    
-def get_sku_category():
+def get_sku_category(sku_categories):
     list_sku_categories(sku_categories)
 
     while True:
@@ -92,7 +92,7 @@ def get_sku_category():
         except ValueError:
             print("Invalid Input: Please try again!")
 ```
-The function, get_sku_category() displays the user each available categories to label their most recent inputted SKU and returns the user's valid category selection. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's selected category to match the correct index.
+The function, get_sku_category(sku_categories) displays the user each available categories to label their most recent inputted SKU and returns the user's valid category selection. Since the list indices in Python start at 0 and the user is presented with choices starting at 1, we need to adjust for the user's selected category to match the correct index.
 
 ```python
 def inventory_item_class(sku, category, quantity):
