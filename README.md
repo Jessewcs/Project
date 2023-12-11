@@ -24,17 +24,19 @@ Key aspects of the Inventory Manager Application that I believe are integral par
 ```python
 def get_option():
     options = ("1", "2", "3", "4", "5")
-    print("--------------------------------------------------------")
+    print("-" * 56)
     print("--- Inventory Item Manager: Select one of the following:")
     print("1. Add & Save a Stock Keeping Unit (SKU)")
     print("2. Remove an existing Stock Keeping Unit")
     print("3. List all individual Stock Keeping Units")
     print("4. Summarize the quantity of SKUs by Category")
     print("5. Exit the Inventory Manager Application")
-    print("--------------------------------------------------------")
-    selected_index = input(f"Which option would you like to select? (1 - {len(options)}): ").strip()
+    print("-" * 56)
+    selected_index = input(f"Which option would you like to select? "
+                           f"(1 - {len(options)}): ").strip()
     while selected_index not in options:
-        selected_index = input(f"Invalid Option: Please enter a valid number! (1 - {len(options)}): ").strip()
+        selected_index = input(f"Invalid Option: Please enter a valid number! "
+                               f"(1 - {len(options)}): ").strip()
     return selected_index
 ```
 The function, get_option() is what provides the user an interface for selecting an action from a menu. This ensures that the user's input matches one of the valid options before proceeding.
@@ -45,12 +47,15 @@ def get_sku():
         try:
             item = input("Enter the item name (e.g. 'Shirt'): ").strip()
             if item != "" and item.isalnum():
-                unique_sku = input("Enter a unique identifier for this SKU (e.g. 'XYZ123'): ").strip()
-                if len(unique_sku) == 6 and unique_sku[:3].isalpha() and unique_sku[3:].isdigit():
+                unique_sku = input("Enter a unique identifier for "
+                                   "this SKU (e.g. 'XYZ123'): ").strip()
+                if (len(unique_sku) == 6 and unique_sku[:3].isalpha()
+                        and unique_sku[3:].isdigit()):
                     sku = f"{item}-{unique_sku[:3]}-{unique_sku[3:]}"
                     return sku
                 else:
-                    print("Invalid Input: Please enter a valid format for the unique identifier! (e.g. 'ABC123')")
+                    print("Invalid Input: Please enter a valid format "
+                          "for the unique identifier! (e.g. 'ABC123')")
             else:
                 print("Invalid Input: Please enter a valid alphanumeric item name!")
         except ValueError:
@@ -61,10 +66,11 @@ The function, get_sku() prompts the user for two inputs, an item name and a 6 di
 ```python
 def get_sku_quantity():
     sku = get_sku()
-    
+
     while True:
         try:
-            quantity = input(f"Enter the quantity in stock for item, {sku}: ").strip()
+            quantity = input(f"Enter the quantity in stock "
+                             f"for item, {sku}: ").strip()
             quantity = int(quantity)
             if quantity >= 0:
                 return sku, quantity
@@ -105,7 +111,8 @@ The function, inventory_item_class(sku, category, quantity) creates an instance 
 def write_inventory_to_file(inventory_item: InventoryItem, file_name):
     try:
         with open(file_name, "a") as file:
-            inventory_string = f"{inventory_item.sku}, {inventory_item.category}, {inventory_item.quantity_in_stock}"
+            inventory_string = (f"{inventory_item.sku}, {inventory_item.category}, "
+                                f"{inventory_item.quantity_in_stock}")
             file.write(inventory_string)
             file.write("\n")
     except FileNotFoundError:
