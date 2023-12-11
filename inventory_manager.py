@@ -317,13 +317,13 @@ def main():
             else:
                 choices = ("1", "2")
                 print()
-                print("-" * 70)
+                print("-" * 71)
                 print("--- Choose one of the following options to proceed:")
                 print(f"1. Permanently remove a single "
                       f"Inventory Item (SKU) from {file_name}")
                 print(f"2. Permanently remove ALL saved "
                       f"Inventory Items from {file_name}")
-                print("-" * 70)
+                print("-" * 71)
                 selected_choice = input(f"Which choice would you like to select? "
                                         f"(1 - {len(choices)}): ").strip()
                 while selected_choice not in choices:
