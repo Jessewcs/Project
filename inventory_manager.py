@@ -309,9 +309,8 @@ def main():
                         print(f"{index}. {item[0]}, {item[1]}, {item[2]}")
                     print("--------------------------------------------------------")
                     sku_to_remove = get_sku_to_remove(sku_list)
-                    if sku_to_remove:
-                        remove_sku(sku_to_remove, file_name)
-                        print(f"\nStock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!\n")
+                    remove_sku(sku_to_remove, file_name)
+                    print(f"\nStock Keeping Unit: {sku_to_remove} has been successfully removed from inventory!\n")
 
                 elif selected_choice == "2":
                     clear_inventory(file_name)
